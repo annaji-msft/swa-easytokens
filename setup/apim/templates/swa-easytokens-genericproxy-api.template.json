@@ -1,0 +1,456 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "PolicyXMLSasToken": {
+      "type": "string"
+    },
+    "PolicyXMLBaseUrl": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "description": "",
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "1",
+        "isCurrent": true,
+        "subscriptionRequired": true,
+        "displayName": "GenericProxy",
+        "serviceUrl": "https://tokenstore-demo-apim.azure-api.net/GenericProxy",
+        "path": "GenericProxy",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "GetRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "GetRequest-1": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "GetRequest-2": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "PostRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "PostRequest-1": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "PostRequest-2": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "DeleteRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "DeleteRequest-1": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "DeleteRequest-2": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "PatchRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "PatchRequest-1": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "PatchRequest-2": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "TokenGetRequest": {
+                "type": "string",
+                "x-apim-inline": true
+              },
+              "TokenGetRequest-1": {
+                "type": "string",
+                "x-apim-inline": true
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy/62a3622f46346110fcae1b1a')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'genericproxy')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "GetToken",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "connector-id",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "connection-id",
+              "type": "string",
+              "required": true,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "null",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "GetToken",
+        "method": "GET",
+        "urlTemplate": "/token"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy/gettoken')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'genericproxy')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/genericproxy-gettoken-operationPolicy.xml', parameters('PolicyXMLSasToken'))]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy/gettoken/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'genericproxy', 'gettoken')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "WildcardDelete",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "connection-id",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "connector-id",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "backend-host",
+              "type": "string",
+              "required": true,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "null",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "WildcardDelete",
+        "method": "DELETE",
+        "urlTemplate": "/*"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy/wildcarddelete')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'genericproxy')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/genericproxy-wildcarddelete-operationPolicy.xml', parameters('PolicyXMLSasToken'))]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy/wildcarddelete/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'genericproxy', 'wildcarddelete')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "WildcardGet",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "connection-id",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "connector-id",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "backend-host",
+              "type": "string",
+              "required": true,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "null",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "WildcardGet",
+        "method": "GET",
+        "urlTemplate": "/*"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy/wildcardget')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'genericproxy')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/genericproxy-wildcardget-operationPolicy.xml', parameters('PolicyXMLSasToken'))]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy/wildcardget/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'genericproxy', 'wildcardget')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "WildcardPatch",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "connection-id",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "connector-id",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "backend-host",
+              "type": "string",
+              "required": true,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "null",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "WildcardPatch",
+        "method": "PATCH",
+        "urlTemplate": "/*"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy/wildcardpatch')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'genericproxy')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/genericproxy-wildcardpatch-operationPolicy.xml', parameters('PolicyXMLSasToken'))]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy/wildcardpatch/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'genericproxy', 'wildcardpatch')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "WildcardPost",
+        "request": {
+          "queryParameters": [],
+          "headers": [
+            {
+              "name": "connection-id",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "connector-id",
+              "type": "string",
+              "required": true,
+              "values": []
+            },
+            {
+              "name": "backend-host",
+              "type": "string",
+              "required": true,
+              "values": []
+            }
+          ],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "null",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "WildcardPost",
+        "method": "POST",
+        "urlTemplate": "/*"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy/wildcardpost')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'genericproxy')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/genericproxy-wildcardpost-operationPolicy.xml', parameters('PolicyXMLSasToken'))]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy/wildcardpost/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'genericproxy', 'wildcardpost')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "WildcardPut",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "null",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "WildcardPut",
+        "method": "PUT",
+        "urlTemplate": "/*"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy/wildcardput')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'genericproxy')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/genericproxy-wildcardput-operationPolicy.xml', parameters('PolicyXMLSasToken'))]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy/wildcardput/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'genericproxy', 'wildcardput')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/genericproxy-apiPolicy.xml', parameters('PolicyXMLSasToken'))]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/genericproxy/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2021-01-01-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'genericproxy')]"
+      ]
+    }
+  ]
+}
